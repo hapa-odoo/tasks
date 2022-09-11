@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ExtraOrderNoteReceipt" owl="1">
+        <div class="pos-receipt">
+            <div>
+                Extra Order Ref :
+                <span class="ref" style="font-size:26px;font-weight: bold;">
+                    <t t-esc="receipt.number" />
+                </span>
+            </div>
+            <br />
+            <div>
+                Served by :
+                <br />
+                <span class="cust" style="font-size:30px;font-weight: bold;">
+                    <t t-esc="env.pos.get_cashier().name" />
+                </span>
+            </div>
+            <br />
+            <div>
+                CN :
+                <span class="cust" style="font-size:30px;font-weight: bold;">
+                    <t t-esc='order.get_client().name' />
+                </span>
+            </div>
+            <br />
+            <div>
+                Mobile # :
+                <t t-if="order.get_client().mobile">
+                    <span class="mobil" style="font-size:26px;font-weight: bold;">
+                        <t t-esc='order.get_client().mobile' />
+                    </span>
+                </t>
+            </div>
+            <hr />
+            <div style="margin-top: 10px;">
+                <b>Note: </b>
+                <span class="note" style="font-size:18px;font-weight: bold;overflow-wrap: break-word;">
+                    <t t-esc='receipt.note' />
+                </span>
+            </div>
+            _________________________________________
+            _________________________________________
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            _________________________________________
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+
+        </div>
+    </t>
+</templates>

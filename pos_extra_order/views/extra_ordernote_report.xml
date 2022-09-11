@@ -1,0 +1,89 @@
+<odoo>
+   
+   
+   <template id="customreport_noteextraorder_document">
+     <t t-call="web.basic_layout">
+      <div class="page" >
+      <br/>
+      <br/>
+      <span class="text-left">
+     Extra Order Ref : 
+					<span style="font-size:18px;font-weight: bold;" t-field="o.name"></span>
+				
+					</span>
+      
+    
+					
+					<br/>
+					
+					   <span class="text-left">
+     CN:
+					<span style="font-size:18px;font-weight: bold;" t-field="o.customer_id.name"></span>
+				
+					</span>
+					<br/>
+					 <t t-if="o.customer_id.mobile">
+					   <span class="text-left">
+     Mobile #:
+					<span style="font-size:18px;font-weight: bold;" t-field="o.customer_id.mobile"></span>
+				
+					</span>
+					</t>
+					
+					<br/>
+					
+				
+            
+             _________________________________________
+             <br/>
+            
+             _________________________________________
+
+<br/>
+             _________________________________________
+             <br/>
+             
+ 
+     
+      
+      </div>
+    
+       
+    </t>
+</template>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <template id="report_noteextraorderpdf_custom">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="pos_extra_order.customreport_noteextraorder_document" />
+        </t>
+    </t>
+</template>
+
+ 		<report
+                id="extra_noteorder_report"
+                string="Extra Order Note Receipt"
+                model="pos.extra.order"
+                report_type="qweb-pdf"
+                file="pos_extra_order.report_noteextraorderpdf_custom"
+                name="pos_extra_order.report_noteextraorderpdf_custom"
+                menu="True"
+        />
+   	
+   
+
+		
+</odoo>

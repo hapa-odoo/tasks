@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<templates xml:space="preserve">
+    <t t-name="view_size_guide_modal">
+		<h3 class="sizeguide-product-title m-3 font-weight-bold">
+			Size Guide
+		</h3>
+		<t t-foreach="SizeGuideCategory" t-as="sgc">
+			<div class="service-tabs-header">
+				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+					<li class="nav-item nav-item-size-guide" t-att-id="sgc['id']">
+						<a class="nav-link parent_id_nav" t-attf-id="parent_id_#{sgc['id']}" data-toggle="pill"
+						   t-attf-href="/website_sale/get_size_guide_info?parent=#{sgc['id']}" role="tab"
+						   aria-controls="pills-home" aria-selected="true">
+							<b t-esc="sgc['complete_name']"/>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="service-tabs-content-wrapper">
+				<div class="card card-body">
+					<p t-if="sgc['child_description']" t-raw="sgc['child_description']"/>
+					<div class="size-guide-table">
+						<t t-if="sgc['product_size_footwear_ids'].length > 0">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>FOOT LENGTH <span class="text-muted h6">(cm)</span></th>
+										<th>EU SIZE</th>
+										<th>US SIZE</th>
+										<th>UK SIZE</th>
+									</tr>
+								</thead>
+								<thead>
+									<tr t-foreach="sgc['product_size_footwear_ids']" t-as="footwear">
+										<td><span t-if="footwear['foot_length']" t-esc="footwear['foot_length']"/></td>
+										<td><span t-if="footwear['eu_size']" t-esc="footwear['eu_size']"/></td>
+										<td><span t-if="footwear['us_size']" t-esc="footwear['us_size']"/></td>
+										<td><span t-if="footwear['uk_size']" t-esc="footwear['uk_size']"/></td>
+									</tr>
+								</thead>
+							</table>
+						</t>
+						<t t-elif="sgc['product_size_clothing_ids'].length > 0">
+							<table class="table">
+								<thead>
+									<tr>
+										<th>GENDER <span class="text-muted h6">(cm)</span></th>
+										<th>SIZE CATEGORY <span class="text-muted h6">(cm)</span></th>
+										<th>AGE <span class="text-muted h6">(cm)</span></th>
+										<th>CHEST <span class="text-muted h6">(cm)</span></th>
+										<th>WAIST <span class="text-muted h6">(cm)</span></th>
+										<th>HIPS <span class="text-muted h6">(cm)</span></th>
+										<th>IT SIZE</th>
+										<th>DE SIZE</th>
+										<th>FR SIZE</th>
+										<th>US SIZE</th>
+										<th>UK SIZE</th>
+										<th>SIZE</th>
+										<th>NECK <span class="text-muted h6">(cm)</span></th>
+										<th>STRIDE <span class="text-muted h6">(cm)</span></th>
+										<th>BUST <span class="text-muted h6">(cm)</span></th>
+										<th>SHOULDER <span class="text-muted h6">(cm)</span></th>
+										<th>CUFF <span class="text-muted h6">(cm)</span></th>
+										<th>TOTAL LENGTH - BACK <span class="text-muted h6">(cm)</span></th>
+										<th>TOTAL LENGTH - BACK (at 69 arm length) <span class="text-muted h6">(cm)</span></th>
+										<th>TOTAL LENGTH - BACK (at 72 arm length) <span class="text-muted h6">(cm)</span></th>
+										<th>SLEEVE LENGTH <span class="text-muted h6">(cm)</span></th>
+										<th>COLLAR SIZE <span class="text-muted h6">(cm)</span></th>
+									</tr>
+								</thead>
+								<thead>
+									<tr t-foreach="sgc['product_size_clothing_ids']" t-as="cloth">
+										<td><span t-if="cloth['user_gender']" class="text-uppercase" t-esc="cloth['user_gender'].replace('_', ' ')"/></td>
+										<td><span t-if="cloth['size_category']" class="text-uppercase" t-esc="cloth['size_category'].replace('_', ' ')"/></td>
+										<td><span t-if="cloth['age']" t-esc="cloth['age']"/></td>
+										<td><span t-if="cloth['chest']" t-esc="cloth['chest']"/></td>
+										<td><span t-if="cloth['waist']" t-esc="cloth['waist']"/></td>
+										<td><span t-if="cloth['hips']" t-esc="cloth['hips']"/></td>
+										<td><span t-if="cloth['it_size']" t-esc="cloth['it_size']"/></td>
+										<td><span t-if="cloth['de_size']" t-esc="cloth['de_size']"/></td>
+										<td><span t-if="cloth['fr_size']" t-esc="cloth['fr_size']"/></td>
+										<td><span t-if="cloth['us_size']" t-esc="cloth['us_size']"/></td>
+										<td><span t-if="cloth['uk_size']" t-esc="cloth['uk_size']"/></td>
+										<td><span t-if="cloth['normal_size']" t-esc="cloth['normal_size']"/></td>
+										<td><span t-if="cloth['neck']" t-esc="cloth['neck']"/></td>
+										<td><span t-if="cloth['stride']" t-esc="cloth['stride']"/></td>
+										<td><span t-if="cloth['bust']" t-esc="cloth['bust']"/></td>
+										<td><span t-if="cloth['shoulder']" t-esc="cloth['shoulder']"/></td>
+										<td><span t-if="cloth['cuff_width']" t-esc="cloth['cuff_width']"/></td>
+										<td><span t-if="cloth['total_back_length']" t-esc="cloth['total_back_length']"/></td>
+										<td><span t-if="cloth['total_length_of_69arm']" t-esc="cloth['total_length_of_69arm']"/></td>
+										<td><span t-if="cloth['total_length_of_72arm']" t-esc="cloth['total_length_of_72arm']"/></td>
+										<td><span t-if="cloth['sleeve_length']" t-esc="cloth['sleeve_length']"/></td>
+										<td><span t-if="cloth['collar_size']" t-esc="cloth['collar_size']"/></td>
+									</tr>
+								</thead>
+							</table>
+						</t>
+					</div>
+					<div class="size-guide-measure">
+						<p t-if="sgc['find_your_size_description']" t-raw="sgc['find_your_size_description']"/>
+					</div>
+					<div class="service-alert">
+						<p class="service-alert-text">
+							The values entered in the size guide may not coincide with those given on the outside of our product packaging as they refer to different types of measurement. For further information, please contact our Customer Service.
+						</p>
+					</div>
+					<div class="sizeguide-measure-img-wrapper">
+						<img t-if="sgc['ref_image']" class="img img-fluid" height="268" width="400"
+							 t-attf-src="data:image/png;base64,#{sgc['ref_image']}"
+							 alt="sgc['name']"/>
+					</div>
+				</div>
+			</div>
+		</t>
+    </t>
+
+	<t t-name="view_size_guide_modal_with_selected_col">
+		<h3 class="sizeguide-product-title m-3 font-weight-bold">
+			Size Guide
+		</h3>
+		<t t-foreach="SizeGuideCategory" t-as="sgc">
+			<div class="service-tabs-header">
+				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+					<li class="nav-item nav-item-size-guide" t-att-id="sgc['id']">
+						<a class="nav-link parent_id_nav" t-attf-id="parent_id_#{sgc['id']}" data-toggle="pill"
+						   t-attf-href="/website_sale/get_size_guide_info?parent=#{sgc['id']}" role="tab"
+						   aria-controls="pills-home" aria-selected="true">
+							<b t-esc="sgc['complete_name']"/>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="service-tabs-content-wrapper">
+				<div class="card card-body">
+					<p t-if="sgc['child_description']" t-raw="sgc['child_description']"/>
+					<div class="size-guide-table">
+						<table class="table">
+							<thead>
+								<tr>
+									<t t-foreach="SizeGuideColumns" t-as="col">
+										<th t-esc="col_value"/>
+									</t>
+								</tr>
+							</thead>
+							<tbody>
+								<t t-if="sgc.show_footwear_field_ids.length > 0">
+									<tr t-foreach="sgc.product_size_footwear_ids" t-as="footwear">
+										<t t-foreach="SizeGuideColumns" t-as="col">
+											<td t-esc="footwear[col]"/>
+										</t>
+									</tr>
+								</t>
+								<t t-elif="sgc.show_clothing_field_ids.length > 0">
+									<tr t-foreach="sgc.product_size_clothing_ids" t-as="cloth">
+										<t t-foreach="SizeGuideColumns" t-as="col">
+											<td t-esc="cloth[col]"/>
+										</t>
+									</tr>
+								</t>
+							</tbody>
+						</table>
+					</div>
+					<div class="size-guide-measure">
+						<p t-if="sgc['find_your_size_description']" t-raw="sgc['find_your_size_description']"/>
+					</div>
+					<div class="service-alert">
+						<p class="service-alert-text">
+							The values entered the size guide may not coincide with those given on the outside of our product packaging as they refer to different types of measurement. For further information, please contact our Customer Service.
+						</p>
+					</div>
+					<div class="sizeguide-measure-img-wrapper">
+						<img t-if="sgc['ref_image']" class="img img-fluid" height="268" width="400"
+							 t-attf-src="data:image/png;base64,#{sgc['ref_image']}"
+							 alt="sgc['name']"/>
+					</div>
+				</div>
+			</div>
+		</t>
+	</t>
+
+
+
+	<t t-name="website_shop_product_filter_carousel">
+        <!--<div id="oe-carousel-product" class="carousel slide modal fade h-auto d-none" data-ride="carousel" data-interval="0" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="carousel-outer position-relative">
+                            <div class="carousel-inner h-100">
+                                product_image_ids==== <spna t-esc="combinationData"/>
+                                <t t-foreach="combinationData" t-as="data">
+                                    carousel <span t-esc="data.carousel"/>
+                                    &lt;!&ndash;<div t-attf-class="carousel-item h-100#{' active' if product_image_first else ''}">
+                                        <div t-if="product_image._name == 'product.image' and product_image.embed_code" class="d-flex align-items-center justify-content-center h-100 embed-responsive embed-responsive-16by9">
+                                            <t t-raw="product_image.embed_code"/>
+                                        </div>
+                                        <div  t-else="" t-field="product_image.image_1920" class="d-flex align-items-center justify-content-center h-100" t-options='{"widget": "image", "preview_image": "image_1024", "class": "product_detail_img mh-100", "alt-field": "name", "zoom": product_image.can_image_1024_be_zoomed and "image_1920", "itemprop": "image"}'/>
+                                    </div>&ndash;&gt;
+                                </t>
+                            </div>
+                            &lt;!&ndash;<t t-if="len(product_image_ids) > 1">
+                                <a class="carousel-control-prev" href="#oe-carousel-product" role="button" data-slide="prev">
+                                    <span class="fa fa-chevron-left p-2" role="img" aria-label="Previous" title="Previous"/>
+                                </a>
+                                <a class="carousel-control-next" href="#oe-carousel-product" role="button" data-slide="next">
+                                    <span class="fa fa-chevron-right p-2" role="img" aria-label="Next" title="Next"/>
+                                </a>
+                            </t>&ndash;&gt;
+                        </div>
+                        &lt;!&ndash;<div t-ignore="True" class="d-none d-md-block text-center">
+                            <ol t-if="len(product_image_ids) > 1" class="carousel-indicators d-inline-block position-static mx-auto my-0 p-1 text-left">
+                                <t t-foreach="product_image_ids" t-as="product_image"><li t-attf-class="d-inline-block m-1 align-top {{'active' if product_image_first else ''}}" data-target="#oe-carousel-product" t-att-data-slide-to="str(product_image_index)">
+                                    <div t-field="product_image.image_128" t-options='{"widget": "image", "qweb_img_responsive": False, "class": "o_image_64_contain", "alt-field": "name"}'/>
+                                    <i t-if="product_image._name == 'product.image' and product_image.embed_code" class="fa fa-2x fa-play-circle-o o_product_video_thumb"/>
+                                </li></t>
+                            </ol>
+                        </div>&ndash;&gt;
+                    </div>
+                </div>
+            </div>
+        </div>-->
+		<div class="modal modal-fullscreen-xl" id="oe-carousel-product" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span>&amp;times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<t t-set="product_images" t-value="product_img_list"/>
+						<div id="o-carousel-product" class="carousel slide" data-ride="carousel" data-interval="0">
+							<div class="carousel-outer position-relative">
+								<div class="carousel-inner h-100">
+									<t t-foreach="product_img_list" t-as="product_image">
+										<div class="carousel-item h-100">
+											<div t-if="product_image['_name'] == 'product.image' and product_image['embed_code']" class="d-flex align-items-center justify-content-center h-100 embed-responsive embed-responsive-16by9">
+												<t t-raw="product_image['embed_code']"/>
+											</div>
+											<div t-else=""  class="d-flex align-items-center justify-content-center h-100"
+												 t-options='{"widget": "image", "preview_image": "image_1024", "class": "product_detail_img mh-100", "alt-field": "name", "zoom": product_image.can_image_1024_be_zoomed and "image_1920", "itemprop": "image"}'>
+												<img src="/web/image/product.image/46/image_1920/product%20y?unique=a3effed" itemprop="image" class="img img-fluid product_detail_img mh-100" alt="Acoustic Bloc Screens" loading="lazy"/>
+											</div>
+										</div>
+									</t>
+								</div>
+								<!--<t t-if="len(product_images) > 1">
+									<a class="carousel-control-prev" href="#o-carousel-product" role="button" data-slide="prev">
+										<span class="fa fa-chevron-left p-2" role="img" aria-label="Previous" title="Previous"/>
+									</a>
+									<a class="carousel-control-next" href="#o-carousel-product" role="button" data-slide="next">
+										<span class="fa fa-chevron-right p-2" role="img" aria-label="Next" title="Next"/>
+									</a>
+								</t>-->
+							</div>
+							<!--<div t-ignore="True" class="d-none d-md-block text-center">
+								<ol t-if="len(product_images) > 1" class="carousel-indicators d-inline-block position-static mx-auto my-0 p-1 text-left">
+									<t t-foreach="product_images" t-as="product_image"><li t-attf-class="d-inline-block m-1 align-top {{'active' if product_image_first else ''}}" data-target="#o-carousel-product" t-att-data-slide-to="str(product_image_index)">
+										<div t-field="product_image.image_128" t-options='{"widget": "image", "qweb_img_responsive": False, "class": "o_image_64_contain", "alt-field": "name"}'/>
+										<i t-if="product_image._name == 'product.image' and product_image.embed_code" class="fa fa-2x fa-play-circle-o o_product_video_thumb"/>
+									</li></t>
+								</ol>
+							</div>-->
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+    </t>
+
+</templates>

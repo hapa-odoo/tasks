@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="pos_extra_order_pos_config_view_form_inherit" model="ir.ui.view">
+            <field name="name">POSExtraOrder.pos.config.form.inherit</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='module_pos_restaurant']/../.." position="after">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="o_setting_left_pane">
+                            <field name="allow_extra_order"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="allow_extra_order"/>
+                        </div>
+                      </div>
+                </xpath>
+                <xpath expr="//div[@id='order_reference']" position="after">
+                    <div id="extra_order_reference" class="col-12 col-lg-6 o_setting_box" groups="base.group_no_one">
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Extra Order Reference</span>
+                            <div class="text-muted">
+                                Generation of your extra order references
+                            </div>
+                            <div class="content-group mt16">
+                                <field name="extra_order_sequence_id"/>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="website_product_filter.assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="link[last()]" position="after">
+            <link rel="stylesheet" type="text/scss" href="/website_product_filter/static/src/scss/product_configurator.scss" />
+        </xpath>
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/website_product_filter/static/src/js/website_sale.js"></script>
+        </xpath>
+    </template>
+
+    <template id='product_size_guide_popup'>
+        <div role="dialog" class="modal d-none" id="product_size_guide">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button btn btn-lg" class="close" data-dismiss="modal" aria-label="Close">×</button>
+                    </div>
+                    <div class="modal-body" id="modal_size_guide_rec"></div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="website_shop_product_filter_carousel" name="Shop Product Carousel">
+        <t t-set="product_images" t-value="product_image_ids" />
+        <div id="oe-carousel-product" class="carousel slide" data-ride="carousel" data-interval="0">
+            <div class="carousel-outer position-relative" id="oe-carousel-outer" style="height: 350px;">
+                <div class="carousel-inner h-90">
+                    <t t-foreach="product_images" t-as="product_image">
+                        <div t-attf-class="carousel-item h-100#{' active' if product_image_first else ''}">
+                            <div t-if="product_image._name == 'product.image' and product_image.embed_code" class="d-flex align-items-center justify-content-center h-100 embed-responsive embed-responsive-16by9">
+                                <t t-raw="product_image.embed_code" />
+                            </div>
+                            <div t-else="" t-field="product_image.image_1920" class="d-flex align-items-center justify-content-center h-100" t-att-prod_id="product_image.id" t-options='{"widget": "image", "preview_image": "image_1024", "class": "carousel_zoom_product mh-100", "alt-field": "name", "itemprop": "image"}' />
+                        </div>
+                    </t>
+                </div>
+                <t t-if="len(product_images) > 1">
+                    <a class="carousel-control-prev" href="#oe-carousel-product" role="button" data-slide="prev">
+                        <span class="fa fa-chevron-left p-2" role="img" aria-label="Previous" title="Previous" />
+                    </a>
+                    <a class="carousel-control-next" href="#oe-carousel-product" role="button" data-slide="next">
+                        <span class="fa fa-chevron-right p-2" role="img" aria-label="Next" title="Next" />
+                    </a>
+                </t>
+            </div>
+            <div t-ignore="True" class="d-none d-md-block text-center">
+                <ol t-if="len(product_images) > 1" class="carousel-indicators d-inline-block position-static mx-auto my-0 p-1 text-left">
+                    <t t-foreach="product_images" t-as="product_image">
+                        <li t-attf-class="d-inline-block m-1 align-top {{'active' if product_image_first else ''}}" data-target="#oe-carousel-product" t-att-data-slide-to="str(product_image_index)">
+                            <div t-field="product_image.image_128" t-options='{"widget": "image", "qweb_img_responsive": False, "class": "o_image_64_contain", "alt-field": "name"}' />
+                            <i t-if="product_image._name == 'product.image' and product_image.embed_code" class="fa fa-2x fa-play-circle-o o_product_video_thumb" />
+                        </li>
+                    </t>
+                </ol>
+            </div>
+        </div>
+    </template>
+
+    <template id="carousel_products" active="True">
+        <div class="modal modal-fullscreen-xl modal-carousel-products" id="modal-fullscreen-xl" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content h-auto carousel_zoom_modal">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span>&amp;times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <t t-call="website_product_filter.website_shop_product_filter_carousel" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id='product_image_grid'>
+        <div class='row' id="o-carousel-product">
+            <div class='col-md-6 col-lg-6 col-sm-12 col-xs-12 mb-3' t-foreach="product_image_ids" t-as="product_image">
+                <div t-if="product_image._name == 'product.image' and product_image.embed_code" class="d-flex align-items-center justify-content-center h-100 embed-responsive embed-responsive-16by9">
+                    <t t-raw="product_image.embed_code" />
+                </div>
+                <div t-else="" t-field="product_image.image_1920" class="d-flex align-items-center justify-content-center h-100" t-options='{"widget": "image", "class": "product_detail_img toggle_product_zoom mh-100 img-fluid", "alt-field": "name", "itemprop": "image"}' />
+                <!-- remove zoom effect from grid view images -->
+                <!-- <div t-else="" t-field="product_image.image_1920" class="d-flex align-items-center justify-content-center h-100" t-options='{"widget": "image", "preview_image": "image_1024", "class": "product_detail_img mh-100 img-fluid", "alt-field": "name", "zoom": product_image.can_image_1024_be_zoomed and "image_1920", "itemprop": "image"}'/>-->
+            </div>
+            <t t-call="website_product_filter.carousel_products" />
+        </div>
+    </template>
+
+    <!-- Add tilde image for /shop page flicker functionality -->
+    <template id="tilde_image_products_item" inherit_id="website_sale.products_item" name="Products Tilde Image">
+        <xpath expr="//div[hasclass('oe_product_image')]//a/span" position="after">
+            <span t-if="image_holder.tilde_image" t-field="image_holder.tilde_image" t-options="{'widget': 'image', 'preview_image': 'tilde_image', 'itemprop': 'image'}" class="h-100 justify-content-center align-items-center d-none" />
+        </xpath>
+        <!-- Change product's font size -->
+        <xpath expr="//h6[hasclass('o_wsale_products_item_title')]" position="attributes">
+            <attribute name="style">font-size: 1rem;</attribute>
+        </xpath>
+    </template>
+
+    <template id="website_product_filter_inherits_shop_product_carousel" inherit_id="website_sale.shop_product_carousel" active="True" name="Product Identity Filters Hide carousel">
+        <xpath expr="//div[hasclass('carousel')]" position="replace">
+            <div id="o-carousel-product" class="carousel slide" data-ride="carousel" data-interval="0"></div>
+        </xpath>
+    </template>
+
+    <template id="products_identity_filters" inherit_id="website_sale.product" active="True" name="Product Identity Filters">
+        <xpath expr="//div[@id='product_details']/h1[@t-field='product.name']" position="replace">
+            <h1 itemprop="name" t-field="product.ecommerce_name">Product Name</h1>
+        </xpath>
+        <xpath expr="//div[@id='product_details']//t[@t-placeholder='select']" position="before">
+            <t t-if="product._has_identity_products()">
+                <t t-esc="available_sizes" />
+                <t t-set="sizes" t-value="product._get_identity_group_sizes()" />
+                <t t-set="colors" t-value="product._get_identity_group_colors()" />
+                <input type="hidden" id="identity_product" name="identity_product" t-att-value="product._has_identity_products()" />
+                <ul class="list-unstyled js_add_cart_variants flex-column">
+                    <li class="filter_color variant_attribute">
+                        <strong id="color-label" t-if="colors" class="attribute_name">Color</strong>
+                        <div class="list-unstyled">
+                            <t t-foreach="colors" t-as="c">
+                                <div class="form-group d-inline" style="margin: 0;">
+                                    <label t-attf-style="background-image:url(/web/image?model=product.color&amp;field=image&amp;id=#{c.id})" t-attf-class="css_attribute_color col-form-label" t-if="c.is_image">
+                                        <div>
+                                            <input type="radio" t-attf-class="always js_filter_change radio_input #{c.id}" t-att-checked="'checked' if c.id == (color and color.id) else None" name="color_id" t-att-value="c.id" t-att-data-value_id="c.id" t-att-data-value_name="c.name" />
+                                        </div>
+                                    </label>
+                                    <label t-attf-style="background-color:#{c.color}" t-attf-class="css_attribute_color col-form-label" t-if="not c.is_image">
+                                        <div>
+                                            <input type="radio" t-attf-class="always js_filter_change radio_input #{c.id}" t-att-checked="'checked' if c.id == (color and color.id) else None" name="color_id" t-att-value="c.id" t-att-data-value_id="c.id" t-att-data-value_name="c.name" />
+                                        </div>
+                                    </label>
+                                </div>
+                            </t>
+                        </div>
+                    </li>
+                    <li class="filter_size variant_attribute">
+                        <div class="d-flex">
+                            <strong id="size-label" t-if="sizes" class="attribute_name">Size</strong>
+                            <div class="flex-grow-1 text-right">
+                                <a href="#" role="button" id="size_guide_button" class="btn-link mb-1 pt-1 o_wevent_create_room_button">
+                                    <small>
+                                        <b>SIZE GUIDE</b>
+                                    </small>
+                                </a>
+                                <!-- Remove existing modal functionality on 'SIZE GUIDE' button -->
+                                <!--<a role="button" id="size_guide_button" class="btn-link mb-1 pt-1" data-target="#product_size_guide" data-toggle="modal"><small><b>SIZE GUIDE</b></small></a>-->
+                            </div>
+                        </div>
+                        <t t-call="website_product_filter.product_size_guide_popup" />
+                        <div>
+                            <t t-foreach="sizes" t-as="s">
+                                <div class="form-group d-inline size_div" id="size_li">
+                                    <label t-attf-class="col-form-label size_label" t-attf-style="padding-bottom:20px">
+                                        <div>
+                                            <input type="radio" t-attf-class="js_filter_change size_radio_input_#{s.id}" t-att-checked="'checked' if s.id == (size and size.id) else None" name="size_id" t-att-value="s.id" t-att-data-value_id="s.id" t-att-data-value_name="s.name" />
+                                            <span t-esc="s.name" />
+                                        </div>
+                                    </label>
+                                </div>
+                            </t>
+                        </div>
+                    </li>
+                </ul>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Hide city and street2 fields from /shop/address page -->
+    <template id="address_extend" inherit_id="website_sale.address" name="Hide street and city field" customize_show="True">
+        <xpath expr="//*[contains(@t-attf-class, 'div_street2')]" position="attributes">
+            <attribute name="t-attf-class" add="d-none" separator=" " />
+        </xpath>
+
+        <xpath expr="//*[contains(@t-attf-class, 'div_city')]" position="attributes">
+            <attribute name="t-attf-class" add="d-none " separator=" " />
+        </xpath>
+
+        <xpath expr="//*[contains(@t-attf-class, 'div_name')]/label" position="after">
+            <span class="s_website_form_mark"> *</span>
+        </xpath>
+
+        <xpath expr="//div[@id='div_email']/label" position="after">
+            <span class="s_website_form_mark"> *</span>
+        </xpath>
+
+        <xpath expr="//div[@id='div_phone']/label" position="after">
+            <span class="s_website_form_mark"> *</span>
+        </xpath>
+
+        <xpath expr="//*[contains(@t-attf-class, 'div_street')]/label" position="after">
+            <span class="s_website_form_mark"> *</span>
+        </xpath>
+
+        <xpath expr="//*[contains(@t-attf-class, 'div_city')]/label" position="after">
+            <span class="s_website_form_mark"> *</span>
+        </xpath>
+
+        <xpath expr="//*[contains(@t-if, '&gt;')]/div/label" position="after">
+            <span class="s_website_form_mark"> *</span>
+        </xpath>
+
+        <xpath expr="//*[contains(@t-attf-class, 'div_country')]/label" position="after">
+            <span class="s_website_form_mark"> *</span>
+        </xpath>
+
+        <xpath expr="//*[contains(@t-attf-class, 'div_state')]/label" position="after">
+            <span class="s_website_form_mark"> *</span>
+        </xpath>
+
+    </template>
+
+    <template id="sort_extend" inherit_id="website_sale.sort" name="Add Bestseller SortBy Option" customize_show="True">
+
+        <xpath expr="//t[@t-set='name_desc_label']" position="after">
+            <t t-set="bestseller_desc_label">Best Seller: High to Low</t>
+        </xpath>
+
+        <xpath expr="//t[@t-set='website_sale_sortable']" position="attributes">
+            <attribute name="t-value" add="+[(bestseller_desc_label, 'bestseller_rank desc')]" separator=" " />
+        </xpath>
+
+    </template>
+
+</odoo>

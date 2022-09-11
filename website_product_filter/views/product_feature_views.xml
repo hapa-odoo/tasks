@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Product Size Tree view -->
+        <record id="product_size_view_form" model="ir.ui.view">
+            <field name="name">product.size.view.form</field>
+            <field name="model">product.size</field>
+            <field name="arch" type="xml">
+                <form string="Product Size">
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="sequence" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Product Size Tree view -->
+        <record id="product_size_view_tree" model="ir.ui.view">
+            <field name="name">product.size.view.tree</field>
+            <field name="model">product.size</field>
+            <field name="arch" type="xml">
+                <tree string="Product Size">
+                    <field name="name" />
+                    <field name="sequence" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Product Color Form view -->
+        <record id="product_color_view_form" model="ir.ui.view">
+            <field name="name">product.color.view.form</field>
+            <field name="model">product.color</field>
+            <field name="arch" type="xml">
+                <form string="Product Color">
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="is_image"/>
+                            <field name="color" widget="color" attrs="{'invisible':[('is_image','=',True)]}"/>
+                            <field name="image" widget="image" class="oe_avatar" options="{'image_preview': 'image_512'}" attrs="{'invisible':[('is_image','!=',True)]}"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Product Color Tree view -->
+        <record id="product_color_view_tree" model="ir.ui.view">
+            <field name="name">product.color.view.tree</field>
+            <field name="model">product.color</field>
+            <field name="arch" type="xml">
+                <tree string="Product Color">
+                    <field name="name" />
+                    <field name="color" widget="color" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- eCommerce Identity Group Form View -->
+        <record id="ecommerce_identity_group_view_form" model="ir.ui.view">
+            <field name="name">ecommerce.identity.group.view.form</field>
+            <field name="model">ecommerce.identity.group</field>
+            <field name="arch" type="xml">
+                <form string="Identity Group">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_image_view" type="object" class="oe_stat_button" icon="fa-list-alt"
+                                attrs="{'invisible': [('image_count', '=', 0)]}">
+                                <field name="image_count" widget="statinfo" string="Product Images"/>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- eCommerce Identity Group Tree View -->
+        <record id="ecommerce_identity_group_view_tree" model="ir.ui.view">
+            <field name="name">ecommerce.identity.group.view.tree</field>
+            <field name="model">ecommerce.identity.group</field>
+            <field name="arch" type="xml">
+                <tree string="Identity Group">
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Product Size Guide Category Form view -->
+        <record id="product_size_guide_category_form_view" model="ir.ui.view">
+            <field name="name">product.size.guide.category.form</field>
+            <field name="model">product.size.guide.category</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <field name="product_size_footwear_ids" invisible="1"/>
+                        <field name="ref_image" widget="image" class="oe_avatar oe_inline"/>
+                        <div class="oe_title">
+                            <label for="name" string="Category name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="e.g. Lamps"/></h1>
+                        </div>
+                        <group name="first" col="2">
+                            <field name="parent_id" class="oe_inline" options='{"no_create": True}'/>
+                        </group>
+                        <group name="two" col="2">
+                            <field name="child_description" class="oe_inline"/>
+                            <field name="find_your_size_description" class="oe_inline"/>
+                            <field name="show_footwear_field_ids" widget="many2many_tags" context="{'from_product_size_guide_category': 1}" options="{'no_create': True}"/>
+                            <field name="show_clothing_field_ids" widget="many2many_tags" context="{'from_product_size_guide_category': 1}" options="{'no_create': True}"/>
+                        </group>
+                        <notebook>
+                            <page string="Footwear Records" name="product_size_footwear_ids">
+                                <field name="product_size_footwear_ids"/>
+                            </page>
+                            <page string="Clothing Records" name="product_size_clothing_ids">
+                                <field name="product_size_clothing_ids">
+                                    <form string="Clothing Records Form">
+                                        <group>
+                                            <group>
+                                                <field name="user_gender"/>
+                                                <field name="size_category"/>
+                                                <field name="age"/>
+                                                <field name="chest"/>
+                                                <field name="waist"/>
+                                                <field name="hips"/>
+                                                <field name="it_size"/>
+                                                <field name="de_size"/>
+                                                <field name="fr_size"/>
+                                                <field name="us_size"/>
+                                                <field name="uk_size"/>
+                                                <field name="normal_size"/>
+                                            </group>
+                                            <group>
+                                                <field name="neck"/>
+                                                <field name="stride"/>
+                                                <field name="bust"/>
+                                                <field name="shoulder"/>
+                                                <field name="cuff_width"/>
+                                                <field name="total_back_length"/>
+                                                <field name="total_length_of_69arm"/>
+                                                <field name="total_length_of_72arm"/>
+                                                <field name="sleeve_length"/>
+                                                <field name="collar_size"/>
+                                                <field name="height"/>
+                                                <field name="leg_length"/>
+                                                <field name="arm_shoulder"/>
+                                                <field name="arm_neck"/>
+                                                <field name="length"/>
+                                            </group>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Product Size Guide Category Tree view -->
+        <record id="product_size_guide_category_list_view" model="ir.ui.view">
+            <field name="name">product.size.guide.category.list</field>
+            <field name="model">product.size.guide.category</field>
+            <field name="arch" type="xml">
+                <tree string="Product Size Guide Category">
+                    <field name="sequence" widget="handle"/>
+                    <field name="id" optional="hide"/>
+                    <field name="display_name" string="Category Name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Product Size Guide Tree view -->
+        <record id="product_size_guide_view_tree" model="ir.ui.view">
+            <field name="name">product.size.guide.view.tree</field>
+            <field name="model">product.size.guide</field>
+            <field name="arch" type="xml">
+                <tree string="Product Size Guide" editable='bottom'>
+                    <field name="id" optional="hide"/>
+                    <field name="foot_length"/>
+                    <field name="eu_size"/>
+                    <field name="us_size"/>
+                    <field name="uk_size"/>
+                    <field name="product_size_guide_categ_id" options='{"no_create": True}' optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Product Size Guide Clothing Tree view -->
+        <record id="product_size_guide_clothing_view_tree" model="ir.ui.view">
+            <field name="name">product.size.guide.clothing.view.tree</field>
+            <field name="model">product.size.guide.clothing</field>
+            <field name="arch" type="xml">
+                <tree string="Product Size Guide Clothing">
+                    <field name="id" optional="hide"/>
+                    <field name="user_gender"/>
+                    <field name="size_category"/>
+                    <field name="age"/>
+                    <field name="chest"/>
+                    <field name="waist"/>
+                    <field name="hips"/>
+                    <field name="it_size"/>
+                    <field name="de_size"/>
+                    <field name="fr_size"/>
+                    <field name="us_size"/>
+                    <field name="uk_size"/>
+                    <field name="normal_size"/>
+                    <field name="neck"/>
+                    <field name="stride"/>
+                    <field name="bust"/>
+                    <field name="shoulder"/>
+                    <field name="cuff_width"/>
+                    <field name="total_back_length"/>
+                    <field name="total_length_of_69arm"/>
+                    <field name="total_length_of_72arm"/>
+                    <field name="sleeve_length"/>
+                    <field name="collar_size"/>
+                    <field name="height"/>
+                    <field name="leg_length"/>
+                    <field name="arm_shoulder"/>
+                    <field name="arm_neck"/>
+                    <field name="length"/>
+                    <field name="product_size_guide_categ_id" options='{"no_create": True}' optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Sequence Product Size Guide Footwear Tree view -->
+        <record id="sequence_footwear_tree_view" model="ir.ui.view">
+            <field name="name">footwear.sequence.tree</field>
+            <field name="model">sequence.footwear</field>
+            <field name="arch" type="xml">
+                <tree string="Footwear Sequence" sample="1" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="footwear_field_id" context="{'from_product_size_guide_category': 1}" options="{'no_create': True}"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Sequence Product Size Guide Clothing Tree view -->
+        <record id="sequence_clothing_tree_view" model="ir.ui.view">
+            <field name="name">clothing.sequence.tree</field>
+            <field name="model">sequence.clothing</field>
+            <field name="arch" type="xml">
+                <tree string="Clothing Sequence" sample="1" editable="bottom">
+                    <field name="sequence" widget="handle"/>
+                    <field name="clothing_field_id" context="{'from_product_size_guide_category': 1}" options="{'no_create': True}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_product_size" model="ir.actions.act_window">
+            <field name="name">Product Size</field>
+            <field name="res_model">product.size</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create Product Sizes</p>
+            </field>
+        </record>
+
+        <record id="action_product_color" model="ir.actions.act_window">
+            <field name="name">Product Color</field>
+            <field name="res_model">product.color</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create Product Colors</p>
+            </field>
+        </record>
+
+        <record id="action_ecommerce_identity_group" model="ir.actions.act_window">
+            <field name="name">eCommerce Identity Group</field>
+            <field name="res_model">ecommerce.identity.group</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create ecommerce Identity Group</p>
+            </field>
+        </record>
+
+        <!-- Product Size Guide action -->
+        <record id="action_product_size_guide" model="ir.actions.act_window">
+            <field name="name">Footwear Products Size Guide</field>
+            <field name="res_model">product.size.guide</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create Product Size Guides</p>
+            </field>
+        </record>
+
+        <!-- Product Size Guide Category action -->
+        <record id="action_product_size_guide_category" model="ir.actions.act_window">
+            <field name="name">Product Size Guide Category</field>
+            <field name="res_model">product.size.guide.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Category of Product Size Guide
+                </p>
+            </field>
+        </record>
+
+        <!-- Product Size Guide Clothing action -->
+        <record id="action_product_size_guide_clothing" model="ir.actions.act_window">
+            <field name="name">Clothing Products Size Guide</field>
+            <field name="res_model">product.size.guide.clothing</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create Product Size Guide Clothing records
+                </p>
+            </field>
+        </record>
+
+        <!-- Sequence Product Size Guide Footwear action -->
+        <record id="action_sequence_footwear" model="ir.actions.act_window">
+            <field name="name">Footwear Sequence</field>
+            <field name="res_model">sequence.footwear</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <!-- Sequence Product Size Guide Clothing action -->
+        <record id="action_sequence_clothing" model="ir.actions.act_window">
+            <field name="name">Clothing Sequence</field>
+            <field name="res_model">sequence.clothing</field>
+            <field name="view_mode">tree</field>
+        </record>
+
+        <menuitem
+            id="menu_product_size"
+            name="Product Size"
+            parent="website_sale.menu_product_settings"
+            action="website_product_filter.action_product_size"
+            sequence="10"
+            />
+
+        <menuitem
+            id="menu_product_color"
+            name="Product Color"
+            parent="website_sale.menu_product_settings"
+            action="website_product_filter.action_product_color"
+            sequence="12"
+            />
+
+        <menuitem
+            id="menu_product_identity_group"
+            name="eCommerce Identity Group"
+            parent="website_sale.menu_product_settings"
+            action="website_product_filter.action_ecommerce_identity_group"
+            sequence="14"
+            />
+
+            <!--<menuitem
+            id="menu_product_size_guide"
+            name="Product Size Guide"
+            parent="website_sale.menu_product_settings"
+            action="website_product_filter.action_product_size_guide"
+            sequence="16"
+            />-->
+
+        <!-- Product Size Guide main menu -->
+        <menuitem id="main_menu_product_size_guide" name="Product Size Guide" sequence="90"
+            parent="website.menu_website_global_configuration"/>
+
+        <!-- Product Size Guide Category Menu -->
+        <menuitem
+            id="menu_categ_product_size_guide"
+            name="Product Size Guide Category"
+            parent="main_menu_product_size_guide"
+            action="website_product_filter.action_product_size_guide_category"
+            sequence="1"/>
+
+        <!-- Product Size Guide menu -->
+        <menuitem
+            id="menu_product_size_guide"
+            name="Footwear Products Size Guide"
+            parent="main_menu_product_size_guide"
+            action="website_product_filter.action_product_size_guide"
+            sequence="2" />
+
+        <!-- Product Size Guide Clothing Menu -->
+        <menuitem
+            id="menu_product_size_guide_clothing"
+            name="Clothing Products Size Guide"
+            parent="main_menu_product_size_guide"
+            action="website_product_filter.action_product_size_guide_clothing"
+            sequence="3"/>
+
+        <!-- Product Size Guide main menu -->
+        <menuitem id="main_menu_set_sequence" name="Product Size Guide Sequences" sequence="95"
+            parent="website.menu_website_global_configuration"/>
+
+        <!-- Set Footwear Sequence [Product Size Guide Clothing] Menu -->
+        <menuitem
+            id="menu_footwear_sequence"
+            name="Footwear Sequence"
+            parent="main_menu_set_sequence"
+            action="website_product_filter.action_sequence_footwear"
+            sequence="3"/>
+
+        <!-- Set Clothing Sequence [Product Size Guide Clothing] Menu -->
+        <menuitem
+            id="menu_product_size_guide_clothing"
+            name="Clothing Sequence"
+            parent="main_menu_set_sequence"
+            action="website_product_filter.action_sequence_clothing"
+            sequence="3"/>
+
+    </data>
+</odoo>

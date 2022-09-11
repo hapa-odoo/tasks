@@ -1,0 +1,173 @@
+<odoo>
+   
+   
+   <template id="customreport_extraorder_document">
+     <t t-call="web.basic_layout">
+      <div class="page" style="font-size:14px">
+      <br/>
+      <br/>
+      <span class="text-left">
+					Local Order Number:	<span t-field="o.name"></span>
+					</span>
+      
+      <br/>
+       <span class="text-left">
+						Remaining Balance:<span t-field="o.customer_id.f_credit_with_paid"></span>
+					</span>
+					
+					<br/>
+					 <span class="text-left">
+						Customer:<span t-field="o.customer_id.name"></span>
+					</span>
+					
+					<br/>
+					    <t t-if="o.customer_id.mobile">
+					 <span class="text-left">
+						Mobile #:<span t-field="o.customer_id.mobile"></span>
+					</span>
+      </t>
+      <t t-set="qtys" t-value="0"/>
+      <table class="table table-sm">
+         <tr>
+         <th width='50%'>Name</th>
+        <th width='10%' >QTY</th>
+        <th width='80%'>Note</th>
+        
+         </tr>
+          <tbody>
+        <t t-foreach="o.pos_parent_id.lines" t-as="line">
+        <tr >
+                                <td name="td_name"><span t-field="line.full_product_name"/></td>
+                                <td name="td_quantity" class="text-left">
+                                    <span t-field="line.qty"/>
+                                     <t t-set="qtys" t-value="qtys+line.qty"/>
+                                </td>
+                                <td>
+                                </td>
+                                </tr>
+        </t>
+        </tbody>
+        </table>
+        <br/>
+        
+          <div class="mt32 ml16 mr16">
+     <div class="offset-8">
+       Total  : <span t-field="o.pos_parent_id.amount_total"/>
+       </div>
+       </div>
+       
+       
+       <br/>
+       
+        <table class="table table-sm">
+        
+          <tbody>
+        <t t-foreach="o.pos_parent_id.payment_ids" t-as="line">
+        <tr >
+                                <td name="td_name"><span t-field="line.payment_method_id.name"/></td>
+                                <td name="td_quantity" class="text-left">
+                                    <span t-field="line.amount"/>
+                                </td>
+                                <td>
+                                </td>
+                                </tr>
+        </t>
+        </tbody>
+        </table>
+        
+        <br/>
+        
+          <span class="text-left">
+       Total Taxes : <span t-field="o.pos_parent_id.amount_tax"/>
+       </span>
+        
+        
+        <br/>
+         <span class="text-left">
+						Remaining Balance:<span t-field="o.customer_id.f_credit_with_paid"></span>
+					</span>
+      <br/>
+      <span class="text-left">
+       Total Items : <t t-esc="qtys" t-options="{'widget': 'float', 'precision': 2}"/>
+      </span> 
+      <br/>
+      <br/>
+      
+        <div style="text-align: center;">
+      <t t-esc="o.pos_parent_id.pos_reference"/>
+      </div> 
+        <div style="text-align: center;">
+      <t t-esc="o.pos_parent_id.date_order"/>
+      </div> 
+       
+       <br>
+       
+       </br>
+       <br/>
+          <span class="text-center">
+       <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', o.pos_parent_id.f_barcode, 600, 100)" style="width:300px;height:80px;" alt="Barcode"/>
+      </span>
+       <div style="text-align: center;">
+      <t t-esc="o.pos_parent_id.f_barcode"/>
+      </div> 
+      
+      </div>
+    
+       
+    </t>
+</template>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <template id="report_extraorderpdf_custom">
+    <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="o">
+            <t t-call="pos_extra_order.customreport_extraorder_document" />
+        </t>
+    </t>
+</template>
+
+ 		<report
+                id="extra_order_report"
+                string="Extra Order Receipt"
+                model="pos.extra.order"
+                report_type="qweb-pdf"
+                file="pos_extra_order.report_extraorderpdf_custom"
+                name="pos_extra_order.report_extraorderpdf_custom"
+                menu="True"
+        />
+   	
+   
+ <record id="f_paperformat_extraorder_receipt_pdf" model="report.paperformat">
+            <field name="name">Custom Extra Order Thermal PDF</field>
+            <field name="default" eval="True"/>
+            <field name="format">custom</field>
+            <field name="page_height">297</field>
+            <field name="page_width">80</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">0</field>
+            <field name="margin_bottom">0</field>
+            <field name="margin_left">0</field>
+            <field name="margin_right">1</field>
+            <field name="header_line" eval="True"/>
+            <field name="header_spacing">0</field>
+            <field name="dpi">77</field>
+            <field name="report_ids" eval="[(6,0,[ 
+                                                  ref('pos_extra_order.extra_order_report'),
+                                                   ref('pos_extra_order.extra_noteorder_report'),
+                                                ])]"/>
+        </record>
+		
+		
+</odoo>

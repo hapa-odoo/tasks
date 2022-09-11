@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ReceiptScreen" t-inherit="point_of_sale.ReceiptScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('buttons')]" position="after">
+            <textarea id="extra_order_note" name="extraordernote" rows="5" cols="70" t-ref="note"></textarea>
+            <div class="buttons">
+                <div t-if="env.pos.config.allow_extra_order" class="button" t-on-click="extraOrderPrintNote">
+                    <i class="ticket-button"></i>
+                    Print Extra Order Note
+                </div>
+                <div t-if="env.pos.config.allow_extra_order" class="button" t-on-click="extraOrderPrintReceipt">
+                    <i class="fa fa-print"></i>
+                    Print Extra Order Receipt
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

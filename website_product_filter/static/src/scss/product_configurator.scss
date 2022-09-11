@@ -1,0 +1,213 @@
+.css_attribute_color {
+    position: relative;
+    display: inline-block;
+    border: 5px solid gray('300');
+    border-radius: 50%;
+    text-align: center;
+    transition: border 200ms;
+    height: 50px;
+    width: 50px;
+    margin-bottom: 0.2rem;
+
+    &:before {
+        content: "";
+        display: block;
+        @include o-position-absolute(-3px, -3px, -3px, -3px);
+        border: 4px solid white;
+        border-radius: 50%;
+        box-shadow: inset 0 0 3px rgba(black, 0.3);
+    }
+
+    input {
+        margin: 8px;
+        height: 13px;
+        width: 13px;
+        opacity: 0;
+    }
+
+    &.active {
+        border: 5px solid theme-color('primary');
+    }
+
+    &.custom_value {
+        background-image: linear-gradient(to bottom right, #FF0000, #FFF200, #1E9600);
+    }
+}
+
+div #size_guide_button {
+    color: #267372;
+    font-size: large;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.filter_size {
+    .modal-dialog {
+        min-width: 50%;
+        width: 50%;
+        min-height: 100%;
+        height: 100%;
+        max-height: 100%;
+        -webkit-transform: translateX(100%);
+        transform: translateX(100%);
+        float: right;
+        transition: transform .5s ease;
+        margin: 0;
+        padding: 0;
+
+        tr {
+            text-align: center;
+        }
+
+        .sizeguide-product-title {
+            font-size: 18px;
+            font-family: ProximaNovaSemiBold, Arial, sans-serif;
+        }
+
+        #pills-tab {
+            background-color: #f2f2f2;
+            margin: 0;
+            display: flex;
+            padding: 0;
+            overflow-x: auto;
+            font-size: 16px;
+            font-family: ProximaNova, Arial, sans-serif;
+
+            .nav-link {
+                color: #333;
+
+                &.active {
+                    color: #3156bc;
+                    background-color: #fff;
+                }
+            }
+        }
+
+        .modal-content {
+            height: 100%;
+            min-height: 100%;
+            border-radius: 0;
+        }
+
+        .size-guide-table {
+            overflow-x: auto;
+            box-shadow: 0 5px 40px -10px #d8d8d8;
+            margin: 25px 0 40px 0;
+        }
+
+        .card-body {
+            border: none;
+        }
+
+        .size-guide-measure {
+            display: block;
+            max-width: 400px;
+        }
+
+        .service-alert {
+            background-color: rgba(255,206,23,.2);
+            border-left: 6px solid #ffce17;
+            padding: 16px 24px;
+            margin: 40px 0;
+            width: 71%;
+
+            .service-alert-text {
+                line-height: 19px;
+                margin: 0;
+                font-family: ProximaNova,Arial,sans-serif;
+                font-size: 16px;
+            }
+        }
+
+        .sizeguide-measure-img-wrapper {
+            margin: 25px 0 0;
+            width: 100%;
+        }
+
+    }
+    @media (max-width: 767px) {
+        .modal-dialog {
+            min-width: 100%;
+            width: 100%;
+            min-height: 100%;
+            height: 100%;
+            max-height: 100%;
+            -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+            float: right;
+            transition: transform .5s ease;
+            margin: 0;
+            padding: 0;
+
+            #modal_size_guide_rec {
+                overflow: scroll;
+            }
+            .service-alert {
+                width: 100%;
+            }
+        }
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+        .modal-dialog {
+            min-width: 100%;
+            width: 100%;
+            min-height: 100%;
+            height: 100%;
+            max-height: 100%;
+            -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+            float: right;
+            transition: transform .5s ease;
+            margin: 0;
+            padding: 0;
+
+            #modal_size_guide_rec {
+                overflow: scroll;
+            }
+            .service-alert {
+                width: 71%;
+            }
+        }
+    }
+}
+
+.size_div {
+    label {
+        input {
+            display: none;
+        }
+
+        span {
+            border: 1px solid #000000;
+            -webkit-appearance: none;
+            width: 150px;
+            height: 65px;
+            overflow: hidden;
+            padding: 10px 20px 10px 20px;
+            font-family: sans-serif, Arial;
+            font-size: 16px;
+            border: 2px solid #444;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        input:focus + label {
+            border: 2px dashed #444;
+        }
+
+        input:checked + span {
+            background-color: #bfb;
+            border-color: #4c4;
+        }
+    }
+}
+.modal-carousel-products {
+    .h-90 {
+        height: 90%;
+    }
+    img.carousel_zoom_product {
+        transform-origin: center center;
+        height: 100%;
+        width: 100%;
+    }
+}

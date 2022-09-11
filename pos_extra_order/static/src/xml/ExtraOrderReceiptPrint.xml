@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="ExtraOrderTicketScreen" owl="1">
+        <div class="ticket-screen screen">
+            <div class="screen-content">
+                <div class="controls">
+                    <div class="buttons">
+                        <button t-if="showNewTicketButton" class="highlight" t-on-click="createNewOrder">New Order</button>
+                        <button class="discard" t-on-click="trigger('close-screen')">Discard</button>
+                    </div>
+                    <t t-set="placeholder">Search Extra Order...</t>
+                    <SearchBar config="searchBarConfig" placeholder="placeholder" />
+                </div>
+                <div class="orders">
+                    <div class="header-row">
+                        <div class="col start wide">Ext order Date</div>
+                        <div class="col start wide">Name</div>
+                        <div class="col start">Customer</div>
+                        <!--                        <div class="col start wide" t-if="showCardholderName()">Actual POS</div>-->
+                        <div class="col start">Customer mobile</div>
+                        <div class="col end">POS order number</div>
+                        <div class="col start narrow">Status</div>
+                        <div class="col center very-narrow" name="delete"></div>
+                    </div>
+                    <t t-foreach="filteredOrderList" t-as="order">
+                        <div class="order-row pointer" t-on-click="selectOrder(order)">
+
+                            <div class="col">
+                                <t t-esc="order.extra_order_date"></t>
+                            </div>
+                            <div class="col start wide">
+                                <t t-esc="order.name"></t>
+                            </div>
+                            <div class="col start wide">
+                                <t t-if="order.customer_id">
+                                    <t t-esc="order.customer_id[1]"></t>
+                                </t>
+                            </div>
+                            <div class="col start wide">
+                                <t t-if="order.customer_mobile">
+                                    <t t-esc="order.customer_mobile"></t>
+                                </t>
+                            </div>
+
+                            <div class="col end">
+                                <t t-esc="order.pos_parent_id[1]"></t>
+                            </div>
+                            <div class="col ">
+                                <t t-esc="order.extra_order_status"></t>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

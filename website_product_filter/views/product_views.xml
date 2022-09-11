@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="product_template_form_view_website_product_filter" model="ir.ui.view">
+            <field name="name">product.template.form.view.website.product.filter</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="website_sale.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='shop']/group[@name='shop']" position="inside">
+                    <group string="Filters">
+                        <field name="ecommerce_identity_main_product" />
+                        <field name="color_id" attrs="{'readonly':[('ecommerce_identity_main_product','=',True)]}"/>
+                        <field name="size_id" attrs="{'readonly':[('ecommerce_identity_main_product','=',True)]}"/>
+                        <field name="ecommerce_identity_group_id" />
+                        <field name="ecommerce_name" />
+                        <field name="size_guide_category_id" />
+                        <field name="bestseller_rank" />
+                    </group>
+                </xpath>
+                <!-- Add tilde image in form view -->
+                <xpath expr="//group[@name='product_template_images']" position="after">
+                    <group name="product_template_tilde_image" string="Product Tilde Image">
+                        <field name="tilde_image" class="oe_avatar float-left" widget="image" options="{'preview_image': 'tilde_image'}" nolabel="1"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_product_image_list_website_product_filter" model="ir.ui.view">
+            <field name="name">product.image.view.list.website.product.filter</field>
+            <field name="model">product.image</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom" string="Product Image List View">
+                    <field name="sequence" widget='handle'/>
+                    <field name="name" />
+                    <field name="image_1920" />
+                    <field name="color_id" />
+                    <field name="ecommerce_identity_group_id" />
+                    <field name="video_url" />
+                    <field name="embed_code" invisible="1" />
+                </tree>
+            </field>
+        </record>
+        <record id="action_product_upload_image_list" model="ir.actions.act_window">
+            <field name="name">Upload Product Image</field>
+            <field name="res_model">product.image</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Upload Product Images</p>
+            </field>
+        </record>
+
+        <menuitem
+        id="menu_product_upload_image"
+        name="Upload Product Images"
+        parent="website_sale.menu_product_settings"
+        action="website_product_filter.action_product_upload_image_list"
+        sequence="18"
+        />
+
+    </data>
+</odoo>

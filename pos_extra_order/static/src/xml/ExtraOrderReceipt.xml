@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<templates id="template" xml:space="preserve">
+    <t t-name="ExtraOrderReceipt" owl="1">
+        <div class="pos-receipt" style="font-size:20px; important">
+            <div style="font-size:13px;margin-top: 10px;">
+                <b>Local Order Number: </b>
+                <span class="ref" style="font-size:18px;font-weight: bold;">
+                    <t t-esc="receipt.name" />
+                </span>
+            </div>
+            <div style="font-size:20px;margin-top: 10px;">
+                <b>Remaining Balance: </b>
+                <span>
+                    <t t-set="x" t-value="0.0" />
+                    <t t-foreach="order.paymentlines.models" t-as="line" t-key="line.cid">
+
+                        <t t-if="line.payment_method.f_is_credit">
+                            <t t-set="x" t-value="x+line.amount" />
+                        </t>
+
+                    </t>
+                    <t t-if="order.get_client()">
+                        <t t-set="x" t-value="x+order.get_client().f_credit_with_paid" />
+
+                        <t t-esc="env.pos.format_currency(x)" />
+                    </t>
+                </span>
+
+
+            </div>
+            <t t-if="order.get_client()">
+                <div style="margin-top: 10px;">
+                    <b>Customer: </b>
+                    <span class="cust" style="font-size:18px;font-weight: bold;">
+                        <t t-esc='order.get_client().name' />
+                    </span>
+                </div>
+                <t t-if="order.get_client().mobile">
+                    <div style="margin-top: 10px;">
+                        <b>Mobile #: </b>
+                        <span class="mobil" style="font-size:18px;font-weight: bold;">
+                            <t t-esc='order.get_client().mobile' />
+                        </span>
+                    </div>
+                </t>
+            </t>
+            <div style="margin-top: 10px;">
+                <b>Note : </b>
+                <span class="note" style="font-size:18px;font-weight: bold;overflow-wrap: break-word;">
+                    <t t-esc='receipt.note' />
+                </span>
+            </div>
+            <div>
+                Served by :
+                <t t-esc="env.pos.get_cashier().name" />
+            </div>
+
+
+            <div class='orderlines'>
+
+                <table class='receipt-orderlines' border='1'>
+                    <colgroup>
+                        <col width='50%' />
+                        <col width='10%' />
+                        <col width='80%' />
+                    </colgroup>
+
+                    <tr style="border: 1px solid rgb(0, 0, 0);">
+                        <th>Name</th>
+                        <th>Qty</th>
+                        <th>  Note  </th>
+                        <!-- <th>Price B.Disc</th>
+	                        <th>Price A.Disc</th> -->
+                    </tr>
+
+                    <tr t-foreach="order.orderlines.models" t-as="line" t-key="line.id" style='border: 1px solid rgb(0, 0, 0);'>
+
+                        <td>
+                            <t t-esc="line.product.display_name" />
+
+                            <div class="pos-disc-font">
+                                <t t-if="!env.pos.config.module_pos_restaurant">
+                                    <t t-if="line.note_line != ''">
+                                        Note:
+                                        <t t-esc="line.note_line" />
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-if="line.note != ''">
+                                        Notes:
+                                        <t t-esc="line.note" />
+                                    </t>
+                                </t>
+                            </div>
+                            <t t-if="line.discount !== 0">
+                                <div class="pos-disc-font">
+                                    With a
+                                    <t t-esc="Math.round(line.discount,2)" />
+                                    % discount
+                                </div>
+                            </t>
+
+
+                        </td>
+
+                        <td>
+                            <t t-esc="line.quantity" />
+
+                        </td>
+
+                        <td width='80%'></td>
+
+
+                    </tr>
+                </table>
+
+            </div>
+
+
+            <!-- <table border = "1">
+  
+    <td   class="text-left" style="text-align:left;width:5.25%;"><strong class="invoice_f" > Total R.Items:   </strong></td>
+    <td  class="text-left" style="text-align:left;width:16%;">   <span t-esc = "order.get_rettotal_items()"  />  </td> 
+    
+    </table>-->
+            <br />
+
+            <div class="pos-receipt-amount">
+                TOTAL
+                <span t-esc="env.pos.format_currency(order.get_total_with_tax())" class="pos-receipt-right-align" />
+            </div>
+
+
+            <br />
+            <br />
+            <div>
+                <t t-foreach="order.paymentlines.models" t-as="line" t-key="line.cid">
+                    <div t-if="env.pos.config.is_multi_currency">
+                        <span t-esc="line.name" />
+                        <span t-esc="line.paid_amount" class="pos-receipt-right-align" />
+                    </div>
+                    <div t-else="">
+                        <t t-esc="line.name" />
+                        <span t-esc="env.pos.format_currency_no_symbol(line.amount)" class="pos-receipt-right-align" />
+                    </div>
+                </t>
+            </div>
+            <br />
+            <div class="pos-receipt-amount receipt-change">
+                CHANGE
+                <span t-esc="env.pos.format_currency(order.get_change())" class="pos-receipt-right-align" />
+            </div>
+
+
+            <br />
+            <div>
+                Total Taxes
+                <span t-esc="env.pos.format_currency(order.get_total_tax())" class="pos-receipt-right-align" />
+            </div>
+
+
+            <div style="font-size:20px;margin-top: 10px;">
+                <b>Remaining Balance: </b>
+                <span>
+                    <t t-set="x" t-value="0.0" />
+                    <t t-foreach="order.paymentlines.models" t-as="line" t-key="line.cid">
+
+                        <t t-if="line.payment_method.f_is_credit">
+                            <t t-set="x" t-value="x+line.amount" />
+                        </t>
+
+                    </t>
+                    <t t-if="order.get_client()">
+                        <t t-set="x" t-value="x+order.get_client().f_credit_with_paid" />
+
+                        <t t-esc="env.pos.format_currency(x)" />
+                    </t>
+                </span>
+
+
+            </div>
+
+            <div>
+
+                <!-- Total Items :<t t-esc="order.get_total_items()" />  -->
+            </div>
+            <br />
+
+            <!--  	<table border = "1">
+    <td   class="text-left" style="text-align:left;width:6.75%;"><strong class="invoice_f" > Total Items:   </strong></td>
+    <td  class="text-left" style="text-align:left;width:16%;">   <span t-esc = "order.get_total_items()"  />  </td> 
+    
+  </table>-->
+
+
+            <!-- 
+            <div style="font-size:13px;margin-top: 10px;">
+                <table style="broder: 1px solid; width:100%;">
+                    <thead>
+                        <tr style="border: 1px solid; height:20px;">
+                            <th style="border-right: 1px solid;">Name</th>
+                            <th style="border-right: 1px solid;">Price</th>
+                            <th style="border-right: 1px solid;">Qty</th>
+                            <th style="border-right: 1px solid;">Out</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border: 1px solid; height:20px;">
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                        </tr>
+                        <tr style="border: 1px solid; height:20px;">
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                        </tr>
+                        <tr style="border: 1px solid; height:20px;">
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                            <td style="border-right: 1px solid;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+            <div class="pos-receipt-order-data">
+                <div>
+                    <t t-esc="order.name" />
+                </div>
+                <div>
+                    <t t-esc="order.formatted_validation_date" />
+                </div>
+            </div>
+            <br />
+            <!--     <div>
+            <t t-esc="order.f_barcode"/></div> -->
+
+            <!--             <img t-att-src=" '/report/barcode/?type=CODE128&amp;value=%s&amp;width=200&amp;height=200&amp;humanreadable=0' % (order.f_barcode)" /> -->
+            <div align="center" style="margin-top: 3px;">
+                <img id="barcode" style="height: 135px;" />
+            </div>
+            <br />
+            <!--           <img alt="Barcode" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('EAN13', order.f_barcode or ''), 600, 150)" style="width:145%;height:55px;"/> -->
+        </div>
+
+
+    </t>
+</templates> <!--<templates id="template" xml:space="preserve">
+    <t t-name="ExtraOrderReceipt" owl="1">
+        <div class="pos-receipt">
+            <div class="orderlines">
+                <div class="row">
+                    <span class="col" style="padding-right:20px;">Local Order No :</span>
+                    <span class="col"
+                            style="border: 3px solid black; width:150px; height:100px;text-align: center; padding:5px;">
+                        <t t-esc="receipt.name"/>
+                    </span>
+                </div>
+                <br/>
+                <div class="row">
+                    <span class="col" style="padding-right:20px; font-size:12px;">Remaining balance :</span>
+                    <div class="col" style="border: 3px solid black; color: white; height:31px; box-sizing:border-box;
+                            width:52%; text-align: center;margin-right:9px; float:right;">
+                    </div>
+                </div>
+                <br/><br/>
+                <div class="row">
+                    <span class="col" style="padding-right:20px; font-size:12px;">Customer :</span>
+                    <span class="col" style="height:120px; box-sizing:border-box;
+                            width:150px; text-align: center;"><t t-esc="order.get_client() and order.get_client().name"/></span>
+                    </div>
+                <br/>
+                <table width="100%">
+                    <tr style="border: 1px solid black">
+                        <th style="border: 1px solid black" width="60%">Name  </th>
+                        <th style="border: 1px solid black" width="20%">Price  </th>
+                        <th style="border: 1px solid black" width="10%">Qty  </th>
+                        <th style="border: 1px solid black" width="10%">Out  </th>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black">Shirt</td>
+                        <td style="border: 1px solid black"></td>
+                        <td style="border: 1px solid black"></td>
+                        <td style="border: 1px solid black"></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black">Trouser</td>
+                        <td style="border: 1px solid black"></td>
+                        <td style="border: 1px solid black"></td>
+                        <td style="border: 1px solid black"></td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid black">Total</td>
+                        <td style="border: 1px solid black"></td>
+                        <td style="border: 1px solid black"></td>
+                        <td style="border: 1px solid black"></td>
+                    </tr>
+                    <br/>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td style="text-align:left;">Total:</td>
+                        <td style="text-align:right;">_________________</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left; font-size:12px;" colspan="2">Cash Details</td>
+                        <td style="text-align:right;" colspan="2">_________________</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"></td>
+                        <td style="text-align:left;">Change:</td>
+                        <td style="text-align:right;">_________________</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">Discount:</td>
+                        <td colspan="2"></td>
+
+                        <td style="text-align:right;">_________________</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">Total taxes:</td>
+                        <td colspan="2"></td>
+                        <td style="text-align:right;">_________________</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:left;">Total item:</td>
+                        <td colspan="3"></td>
+                    </tr>
+                    <br/>
+                </table>
+                <div>
+                    <div style="text-align: center; font-size: 16px;">Reference:
+                        <t t-esc="receipt.name"/></div>
+                    <img t-attf-src="/report/barcode/?type=Code128&amp;value={{receipt.name}}&amp;width=300&amp;height=60"
+                            style="padding-top:5px;display: block; margin-left: auto; margin-right: auto;"/>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates> -->

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="seq_pos_extra_order" model="ir.sequence">
+            <field name="name">Pos Extra Order</field>
+            <field name="code">pos.extra.order</field>
+            <field name="prefix">PEO</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

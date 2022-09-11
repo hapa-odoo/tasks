@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+
+
+
+
+    <template id="assets" inherit_id="point_of_sale.assets">
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/ExtraOrderTicketButton.js"></script>
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/ExtraOrderTicketScreen.js"></script>
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/Models.js"></script>
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/ReceiptScreen.js"></script>
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/ExtraOrderReceipt.js"></script>
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/ExtraOrderReceiptScreen.js"></script>
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/ExtraOrderReceiptPrint.js"></script>
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/ExtraOrderNoteScreen.js"></script>
+            <script type="text/javascript" src="/pos_extra_order/static/src/js/ExtraOrderNoteReceipt.js"></script>
+        </xpath>
+    </template>
+</odoo>
