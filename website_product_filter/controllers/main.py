@@ -49,13 +49,11 @@ class CustomWebsiteSale(WebsiteSale):
         if 'context' in kw:
             ProductTemplate = request.env['product.template'].sudo().with_context(**kw.get('context'))
         product_template = ProductTemplate.browse(int(product_template_id))
-        print("\n****product_template*******", product_template)
         if size_id or color_id:
             product = request.env['product.product'].sudo().search([
                 ('ecommerce_identity_group_id','=',product_template.ecommerce_identity_group_id.id),
                 ('color_id','=',int(color_id or 0)),
             ], limit=1)
-            print("\n****product*******", product)
             all_sizes = product_template._get_identity_group_sizes()
             product_for_sizes = request.env['product.product'].sudo().search([
                 ('ecommerce_identity_group_id','=',product_template.ecommerce_identity_group_id.id),
@@ -63,24 +61,19 @@ class CustomWebsiteSale(WebsiteSale):
             ])
             available_sizes = product_for_sizes.mapped('size_id')
             remaining_sizes = all_sizes - available_sizes
-            # if size_id:
-            #     product = request.env['product.product'].sudo().search([
-            #         ('ecommerce_identity_group_id','=',product_template.ecommerce_identity_group_id.id),
-            #         ('color_id','=',int(color_id or 0)),
-            #         ('size_id','=',int(size_id))
-            #     ], limit=1)
-            #     print("\n****inside if of size_id product*******", product)
-
+            if size_id:
+                product = request.env['product.product'].sudo().search([
+                    ('ecommerce_identity_group_id','=',product_template.ecommerce_identity_group_id.id),
+                    ('color_id','=',int(color_id or 0)),
+                    ('size_id','=',int(size_id))
+                ], limit=1)
             res = product_template._get_combination_info(combination, int(product.id or 0), int(add_qty or 1), pricelist)
-            print("\n>>>>>>>>>>>>initial res", res)
             website = ir_http.get_request_website()
             products_for_qty = []
             if website:
                 order = website.sale_get_order()
-                print("\n??????????order???order???", order,"\n******product_for_sizes.mapped('product_tmpl_id')*", product_for_sizes.mapped('product_tmpl_id'),"\torder.warehouse_id.id",order.warehouse_id.id)
 
                 for tmpl in product_for_sizes.mapped('product_tmpl_id'):
-                    print("\n######tmpl.with_context(warehouse=order.warehouse_id.id).qty_available########", tmpl.with_context(warehouse=order.warehouse_id.id))
                     products_for_qty_vals = {
                         'product_tmpl_id': tmpl.id,
                         'product_tmpl_name': tmpl.name,
@@ -107,7 +100,6 @@ class CustomWebsiteSale(WebsiteSale):
                     values={'product_image_ids': product_image_ids})
                 res['product_image_ids'] = carousel_product_image_ids
             res['remaining_sizes'] = remaining_sizes.ids
-        print("\n+++++++res+++++res++++res++", res)
         return res
 
     @http.route(['/website_sale/get_size_guide_info'], type='json', auth="public", methods=['POST'])
