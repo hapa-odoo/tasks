@@ -403,7 +403,6 @@ odoo.define('website_product_filter.cart', function (require) {
                     'size_id': sizeID || 0,
                     'color_id': colorID || 0,
                 }).then(function (combinationData) {
-                    console.log("\n *****combinationData***combinationData****", combinationData);
                     self._onChangeCombination(false, $parent, combinationData);
                     self._disable_product_size($parent, combinationData.remaining_sizes);
                     self._show_product_qty($parent, combinationData.products_for_qty);

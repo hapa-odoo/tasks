@@ -223,6 +223,14 @@
             <attribute name="t-value" add="+[(bestseller_desc_label, 'bestseller_rank desc')]" separator=" " />
         </xpath>
 
+        <xpath expr="//t[@t-set='bestseller_desc_label']" position="after">
+            <t t-set="bestseller_asc_label">Best Seller: Low To High</t>
+        </xpath>
+
+        <xpath expr="//t[@t-set='website_sale_sortable']" position="attributes">
+            <attribute name="t-value" add="+[(bestseller_asc_label, 'bestseller_rank asc')]" separator=" " />
+        </xpath>
+
     </template>
 
 </odoo>
