@@ -22,7 +22,7 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['pos_loyalty'],
+    'depends': ['pos_loyalty', 'pos_discount'],
 
     # always loaded
     'data': [
