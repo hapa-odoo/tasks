@@ -25,6 +25,12 @@
                     </div>
                 </div>
             </xpath>
+            <xpath expr="//label[@for='module_pos_discount']//following::div[2]" position="inside">
+                <div class="row">
+                    <label string="Product To Skip" for="product_to_skip_ids" class="col-lg-3 o_light_label" />
+                    <field name="product_to_skip_ids" widget="many2many_tags" />
+                </div>
+            </xpath>
         </field>
     </record>
 

@@ -6,6 +6,7 @@
             <xpath expr="." position="inside">
                 <script type="text/javascript" src="/pos_limit_discount/static/src/js/ProductScreen.js"></script>
                 <script type="text/javascript" src="/pos_limit_discount/static/src/js/Loyalty.js"></script>
+                <script type="text/javascript" src="/pos_limit_discount/static/src/js/DiscountButton.js"></script>
             </xpath>
         </template>
 

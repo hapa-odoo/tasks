@@ -39,7 +39,8 @@ odoo.define('pos_limit_discount.ProductScreen', function (require) {
                         if (line.is_reduced) {
                             continue;
                         }
-                        if(line.get_discount()){
+                        var line_discount_pc = line.get_discount() + line.get_global_discount_pc();
+                        if(line_discount_pc > 0){
                             var line_points_currency = 0;
                             loyalty_rules.forEach(function(rule) {
                                 var rule_points_currency = 0;
@@ -50,12 +51,12 @@ odoo.define('pos_limit_discount.ProductScreen', function (require) {
                                     line_points_currency = rule_points_currency;
                                 }
                             });
-                            if(line.get_discount() <= limit_discount_pc){
-                                var discount_amount = (line.get_discount()/100) * line.get_price_with_tax_before_discount();
+                            if(line_discount_pc <= limit_discount_pc){
+                                var discount_amount = (line_discount_pc/100) * line.get_price_with_tax_before_discount();
                                 var current_line_points = line_points_currency * (line.get_price_with_tax_before_discount() - discount_amount);
                                 var points_amount = current_line_points/line_points_currency;
                                 var total_discount = points_amount + discount_amount;
-                                var limit_discount = (limit_discount_pc/100)* line.get_price_with_tax_before_discount();
+                                var limit_discount = (limit_discount_pc/100) * line.get_price_with_tax_before_discount();
                                 if(total_discount > limit_discount){
                                     var difference_amount =  total_discount - limit_discount;
                                     var current_line_points_to_reduce = round_pr(difference_amount * line_points_currency, 1) ;
