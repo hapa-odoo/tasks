@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <!-- Multi-Company Rules -->
+    <record id="invoice_line_report_summary_comp_rule_line" model="ir.rule">
+        <field name="name">Invoice Line Report Summary Analysis multi-company</field>
+        <field name="model_id" ref="model_report_invoice_line_summary"/>
+        <field name="domain_force">['|', ('company_id','=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="report_invoice_summary_comp_rule" model="ir.rule">
+        <field name="name">Report Invoice Summary multi-company</field>
+        <field name="model_id" ref="model_report_invoice_summary"/>
+        <field name="domain_force">['|', ('company_id','=', False), ('company_id', 'in', company_ids)]</field>
+    </record>
+
+</data>
+</odoo>

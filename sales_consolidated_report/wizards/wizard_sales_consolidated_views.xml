@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_sales_consolidated_report_wizard_form" model="ir.ui.view">
+        <field name="name">view.sales.consolidated.report.wizard.form</field>
+        <field name="model">sales.consolidated.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Detailed Stock Analysis">
+                <div class="alert alert-info text-left" role="alertdialog">
+                    <strong class="mb-2"><b>Notes</b></strong><br/>
+                    <strong><b class="mr-3">Companies:</b>If there is no company selected then we are considring the Default Company.</strong><br/>
+                </div>
+                <group col="4">
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                </group>
+                <group>
+                    <field name="company_ids" widget="many2many_tags" />
+                </group>
+                <group>
+                    <field name="product_ids" widget="many2many_tags" />
+                </group>
+                <group>
+                    <field name="partner_tag_ids" widget="many2many_tags" />
+                </group>
+                <group>
+                    <group>
+                        <field name="report_type" widget="radio" options="{'horizontal': true}" />
+                    </group>
+                    <group>
+                        <field name="is_sop" default="1" />
+                        <field name="is_pos" />
+                        <field name="is_bt" />
+                        <field name="is_employee_wallet" />
+                    </group>
+                </group>
+                <footer>
+                    <button
+                        name="action_print"
+                        string="Export To Excel"
+                        type="object"
+                        class="btn-primary"/>
+                    <button
+                        name="open_report_data"
+                        string="Open Report"
+                        type="object"
+                        class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_sales_consolidated_report_wizard" model="ir.actions.act_window">
+        <field name="name">Sales Consolidated Report (SOP-POS-BT)</field>
+        <field name="res_model">sales.consolidated.report.wizard</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_sales_consolidated_report_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem 
+        id="menu_action_sales_consolidated_report_parent"
+        name="Consolidated Reports"
+        parent="account_accountant.menu_accounting"
+        sequence="1"/>
+
+    <menuitem
+        id="menu_action_sales_consolidated_report"
+        name="Sales Consolidated Report"
+        action="action_sales_consolidated_report_wizard"
+        parent="sales_consolidated_report.menu_action_sales_consolidated_report_parent"
+        sequence="5"/>
+
+</odoo>

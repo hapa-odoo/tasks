@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="sale_consolidated_report_view_pivot" model="ir.ui.view">
+            <field name="name">sale.consolidated.report.pivot</field>
+            <field name="model">sale.consolidated.report</field>
+            <field name="arch" type="xml">
+                <pivot string="Sales Report" disable_linking="True" sample="1">
+                    <field name="date" type="row" />
+                    <field name="price_subtotal" type="measure" />
+                    <field name="price_total" type="measure" />
+                </pivot>
+            </field>
+        </record>
+
+        <record id="sale_consolidated_report_summary_view_tree" model="ir.ui.view">
+            <field name="name">sale.consolidated.report.summary.tree</field>
+            <field name="model">sale.consolidated.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="doc_id" invisible="1" />
+                    <field name="date" />
+                    <field name="partner_id" />
+                    <field name="state_id" />
+                    <field name="invoice_type" />
+                    <field name="company_id" optional="hide"/>
+                    <field name="default_code" optional="hide"/>
+                    <field name="price_subtotal" sum="Total Price Subtotal" />
+                    <field name="tax_value" sum="Total Tax" />
+                    <field name="price_total" />
+                    <field name="reference" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_consolidated_report_detailed_view_tree" model="ir.ui.view">
+            <field name="name">sale.consolidated.report.detailed.tree</field>
+            <field name="model">sale.consolidated.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="invoice_type" />
+                    <field name="partner_id" />
+                    <field name="product_id" optional="show"/>
+                    <field name="company_id" optional="show"/>
+                    <field name="tax_rate" />
+                    <field name="cgst_amount" />
+                    <field name="sgst_amount" />
+                    <field name="igst_amount" />
+                    <field name="cess_amount" />
+                    <field name="default_code" optional="hide"/>
+                    <field name="total_qty" />
+                    <field name="discount_per" />
+                    <field name="price_subtotal" />
+                    <field name="price_total" />
+                    <field name="reference" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_consolidated_report_hsn_view_tree" model="ir.ui.view">
+            <field name="name">sale.consolidated.report.hsn.tree</field>
+            <field name="model">sale.consolidated.report</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="reference" />
+                    <field name="invoice_type" />
+                    <field name="branch_state_id" optional="hide"/>
+                    <field name="company_id" optional="show" />
+                    <field name="vat_partner" optional="hide"/>
+                    <field name="partner_id" />
+                    <field name="name" />
+                    <field name="date" />
+                    <field name="state_id" optional="hide"/>
+                    <field name="partner_id" />
+                    <field name="product_id" optional="show"/>
+                    <field name="l10n_in_hsn_code" optional="show"/>
+                    <field name="inv_value" optional="hide"/>
+                    <field name="price_subtotal" optional="hide"/>
+                    <field name="tax_rate" />
+                    <field name="tax_value" />
+                    <field name="cgst_amount" />
+                    <field name="sgst_amount" />
+                    <field name="igst_amount" />
+                    <field name="cess_amount" />
+                    <field name="total_qty" optional="hide"/>
+                    <field name="state_code" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_consolidated_report_view_search" model="ir.ui.view">
+            <field name="name">sale.consolidated.report.search</field>
+            <field name="model">sale.consolidated.report</field>
+            <field name="arch" type="xml">
+                <search string="Report Sales Consolidated Analysis">
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="product_id" />
+                    <field name="default_code" />
+                    <field name="l10n_in_hsn_code" />
+                    <field name="state_code" />
+                    <field name="state_id" />
+
+                    <filter string="Sales Orders" name="sop" domain="[('reference','=','sop')]" />
+                    <filter string="POS Orders" name="pos" domain="[('reference','=','pos')]" />
+                    <filter string="Branch Transfer" name="bt" domain="[('reference','=','bt')]" />
+                    <separator />
+                    <group expand="1" string="Group By">
+                        <filter string="Partner" name="partner_id" context="{'group_by':'partner_id','residual_visible':True}" />
+                        <filter string="Company" name="company" context="{'group_by':'company_id'}" groups="base.group_multi_company" />
+                        <separator orientation="vertical" />
+                        <filter string="Date" name="date" context="{'group_by':'date'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>
