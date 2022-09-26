@@ -7,9 +7,9 @@
         """,
 
     'description': """
-        If Discount applied on order(lines_discount+global_discount+discount_of_won_points) exceeds the
-        limit_disount applied on order_total  then try to reduce won points if possible otherwise
-        raise a error popup.
+        If Discount applied on orderline(lines_discount+global_discount+discount_of_won_points) exceeds the
+        limit_disount applied then try to reduce won points if possible otherwise
+        raise an error popup.
     """,
 
     'author': "Odoo India",
@@ -28,6 +28,9 @@
     'data': [
         'views/pos_config_views.xml',
         'views/templates.xml',
+    ],
+    'qweb': [
+        'static/src/xml/PaymentScreen/PaymentScreen.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

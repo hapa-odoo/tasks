@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="PaymentScreenExtend" t-inherit="point_of_sale.PaymentScreen" t-inherit-mode="extension" owl="1">
+        <xpath expr="//div[hasclass('top-content-center')]" position="before">
+            <t t-if="!env.isMobile and (get_points_won() != 0)">
+                <div class='loyalty-points' style="margin: 12px 6px 12px 6px;padding: 12px 6px 12px 6px; line-height: 15px;">
+                    <div class="loyalty-points-title" style="font-size : 18px">
+                        <span>Loyalty Won Point :</span>
+                        <span style="margin-left:4px !important;" t-esc="get_points_won()" />
+                    </div>
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>

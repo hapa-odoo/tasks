@@ -12,12 +12,7 @@ odoo.define('pos_limit_discount.pos_loyalty', function (require) {
         initialize: function () {
             _super_orderline.initialize.apply(this, arguments);
             this.is_reduced = false;
-            this.global_discount_for_line = 0;
             this.global_discount_pc = 0;
-        },
-        set_global_discount_for_line : function(dis){
-            this.global_discount_for_line = dis;
-            this.trigger('change', this);
         },
         set_global_discount_pc : function(pc){
             this.global_discount_pc = pc;
@@ -27,11 +22,11 @@ odoo.define('pos_limit_discount.pos_loyalty', function (require) {
             this.is_reduced = is_reduce;
             this.trigger('change', this);
         },
-        get_global_discount_for_line : function() {
-            return this.global_discount_for_line;
-        },
         get_global_discount_pc : function() {
             return this.global_discount_pc;
+        },
+        is_product_to_skip(line){
+            
         },
         export_as_JSON: function(){
             var json = _super_orderline.export_as_JSON.apply(this,arguments);
@@ -41,9 +36,6 @@ odoo.define('pos_limit_discount.pos_loyalty', function (require) {
         init_from_JSON: function(json){
             _super_orderline.init_from_JSON.apply(this,arguments);
             this.is_reduced = json.is_reduced;
-        },
-        get_global_discount_for_line : function(){
-            return this.global_discount_for_line;
         },
     });
 

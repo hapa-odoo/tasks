@@ -18,7 +18,9 @@ odoo.define('pos_limit_discount.ProductScreen', function (require) {
                 super._setValue(val);
                 this.currentOrder.set_points_to_reduce(0);
                 if(this.currentOrder.get_selected_orderline()){
-                    this.currentOrder.get_selected_orderline().set_is_reduced(false);
+                    this.currentOrder.get_orderlines().forEach(function(line){
+                        line.set_is_reduced(false);
+                    });
                 }
             }
 
@@ -53,15 +55,16 @@ odoo.define('pos_limit_discount.ProductScreen', function (require) {
                             });
                             if(line_discount_pc <= limit_discount_pc){
                                 var discount_amount = (line_discount_pc/100) * line.get_price_with_tax_before_discount();
-                                var current_line_points = line_points_currency * (line.get_price_with_tax_before_discount() - discount_amount);
+                                var current_line_points = line_points_currency * (line.get_price_with_tax());
                                 var points_amount = current_line_points/line_points_currency;
-                                var total_discount = points_amount + discount_amount;
+                                var total_discount = points_amount + discount_amount ;
                                 var limit_discount = (limit_discount_pc/100) * line.get_price_with_tax_before_discount();
                                 if(total_discount > limit_discount){
                                     var difference_amount =  total_discount - limit_discount;
                                     var current_line_points_to_reduce = round_pr(difference_amount * line_points_currency, 1) ;
                                     if(current_line_points_to_reduce <= won_points){
                                         points_to_reduce += current_line_points_to_reduce;
+                                        this.currentOrder.set_points_to_reduce(points_to_reduce);
                                     } 
                                 }
                             } else {
@@ -73,7 +76,6 @@ odoo.define('pos_limit_discount.ProductScreen', function (require) {
                         } 
                         line.set_is_reduced(true);
                     }
-                    this.currentOrder.set_points_to_reduce(points_to_reduce);
                 }
                 super._onClickPay();
             }
