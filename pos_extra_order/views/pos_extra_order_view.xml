@@ -17,6 +17,7 @@
                             <group>
                                 <field name="customer_id"/>
                                 <field name="customer_mobile"/>
+                                <field name="note"/>
                             </group>
                             <group>
                                 <field name="extra_order_date" readonly="1"/>

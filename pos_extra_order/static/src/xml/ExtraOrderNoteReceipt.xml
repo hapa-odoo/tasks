@@ -10,19 +10,20 @@
             </div>
             <br />
             <div>
-                Served by :
-                <br />
-                <span class="cust" style="font-size:30px;font-weight: bold;">
-                    <t t-esc="env.pos.get_cashier().name" />
+                CN :
+                <span class="cust" style="font-size:18px;font-weight: bold;">
+                    <t t-esc='order.get_client().name' />
                 </span>
             </div>
             <br />
             <div>
-                CN :
-                <span class="cust" style="font-size:30px;font-weight: bold;">
-                    <t t-esc='order.get_client().name' />
+                Served by :
+                <br />
+                <span class="cust" style="font-size:18px;font-weight: bold;">
+                    <t t-esc="env.pos.get_cashier().name" />
                 </span>
             </div>
+
             <br />
             <div>
                 Mobile # :
