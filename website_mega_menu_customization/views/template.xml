@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="website_mega_menu_customization" name="website.mega.menu" inherit_id="web.assets_frontend">
+        <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="website_mega_menu_customization/static/src/js/collapsible_mega_menu.js" />
+        </xpath>
+    </template>
+</odoo>
