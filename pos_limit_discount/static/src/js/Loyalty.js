@@ -25,9 +25,6 @@ odoo.define('pos_limit_discount.pos_loyalty', function (require) {
         get_global_discount_pc : function() {
             return this.global_discount_pc;
         },
-        is_product_to_skip(line){
-            
-        },
         export_as_JSON: function(){
             var json = _super_orderline.export_as_JSON.apply(this,arguments);
             json.is_reduced = this.is_reduced;
