@@ -32,3 +32,9 @@
     Decoration-danger..red color
     Decoration-info..lightblue color
     Decoration-mates...gray
+
+*****vs code trips and tricks for own configuration
+    go to file -> preferences -> configure user input 
+    search for html, xml.json etc.
+    go to link  https://dev.to/hannahgooding/vs-code-shortcuts-and-tricks-that-i-wish-i-knew-sooner-3mcj
+    link for html to json converter : https://www.freeformatter.com/json-escape.html#before-output
