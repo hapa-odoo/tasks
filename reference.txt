@@ -33,8 +33,15 @@
     Decoration-info..lightblue color
     Decoration-mates...gray
 
-*****vs code trips and tricks for own configuration
-    go to file -> preferences -> configure user input 
-    search for html, xml.json etc.
-    go to link  https://dev.to/hannahgooding/vs-code-shortcuts-and-tricks-that-i-wish-i-knew-sooner-3mcj
-    link for html to json converter : https://www.freeformatter.com/json-escape.html#before-output
+
+****odoo-path
+    ./odoo-bin --addons-path=addons,odoo/addons/,../enterprise -d
+    --limit-time-cpu=3600 --limit-time-real=3600
+
+****github command
+    git remote set-url odoo git@github.com:odoo/enterprise.git(to aquire ssh connection with the repository/remote)
+    git remote update
+    git pull
+
+    
+
